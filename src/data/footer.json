@@ -1,0 +1,54 @@
+[
+  {
+    "id": 1,
+    "name": "Audiodescrizione"
+  },
+  {
+    "id": 2,
+    "name": "Centro assistenza"
+  },
+  {
+    "id": 3,
+    "name": "Carte regalo"
+  },
+  {
+    "id": 4,
+    "name": "Media Center"
+  },
+  {
+    "id": 5,
+    "name": "Rapporti con gli investitori"
+  },
+  {
+    "id": 6,
+    "name": "Opportunità di lavoro"
+  },
+  {
+    "id": 7,
+    "name": "Condizioni di utilizzo"
+  },
+  {
+    "id": 8,
+    "name": "Privacy"
+  },
+  {
+    "id": 9,
+    "name": "Note Legali"
+  },
+  {
+    "id": 10,
+    "name": "Preferenze per i cookie"
+  },
+  {
+    "id": 11,
+    "name": "Informazioni sull'azienda"
+  },
+  {
+    "id": 12,
+    "name": "Contattaci"
+  },
+  {
+    "id": 13,
+    "name": "Preferenze per la pubblicità"
+  }
+]

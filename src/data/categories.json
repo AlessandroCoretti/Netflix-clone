@@ -1,0 +1,22 @@
+[
+  {
+    "name": "Home",
+    "path": "/"
+  },
+  {
+    "name": "Serie",
+    "path": "/serie-tv"
+  },
+  {
+    "name": "Film",
+    "path": "/film"
+  },
+  {
+    "name": "Nuovi e popolari",
+    "path": "/new"
+  },
+  {
+    "name": "La mia lista",
+    "path": "/my-list"
+  }
+]

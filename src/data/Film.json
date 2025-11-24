@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "image": "",
+    "categories": "Fantasy",
+    "duration": 180
+  },
+  {
+    "id": 2,
+    "image": "",
+    "categories": "Drama",
+    "duration": 148
+  },
+  {
+    "id": 3,
+    "image": "",
+    "categories": "Comedy",
+    "duration": 124
+  },
+  {
+    "id": 4,
+    "image": "",
+    "categories": "Action",
+    "duration": 90
+  },
+  {
+    "id": 5,
+    "image": "",
+    "categories": "Biopic",
+    "duration": 94
+  },
+  {
+    "id": 6,
+    "image": "",
+    "categories": "Romantic",
+    "duration": 124
+  }
+]

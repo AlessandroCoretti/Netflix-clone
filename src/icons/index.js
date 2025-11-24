@@ -1,0 +1,12 @@
+export { default as SearchIcons } from "../components/icons/SearchIcons";
+export { default as BellIcons } from "../components/icons/BellIcons";
+export { default as ArrowIcons } from "../components/icons/ArrowIcons";
+export { default as Facebook } from "../components/icons/FacebookIcon";
+export { default as Instagram } from "../components/icons/InstagramIcons";
+export { default as Twitter } from "../components/icons/TwitterIcons";
+export { default as Youtube } from "../components/icons/YoutubeIcon";
+export { default as AddIcon } from "../components/icons/AddIcon";
+export { default as DeleteIcon } from "../components/icons/DeleteIcon";
+export { default as Play } from "../components/icons/PlayIcon";
+export { default as PlayerIcon } from "../components/icons/PlayerIcon";
+export { default as MoreInfoIcon } from "../components/icons/MoreInfoIcon";
