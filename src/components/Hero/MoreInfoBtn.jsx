@@ -2,9 +2,14 @@ import MoreInfoIcon from "../icons/MoreInfoIcon";
 
 export default function MoreInfoBtn() {
   return (
-    <button className="flex gap-2 items-center px-7 py-3 rounded-sm bg-[#7f7f7f] cursor-pointer hover:bg-[#7f7f7f74]">
-      <MoreInfoIcon color="white" size={30} />
-      <p className="text-lg text-white font-bold">Altre info</p>
+    <button className="flex items-center gap-1 px-4 py-2 md:gap-2 md:px-7 md:py-3 rounded-xs md:rounded-sm bg-[#7f7f7f] cursor-pointer hover:bg-[#7f7f7f74]">
+      <span className="block md:hidden">
+        <MoreInfoIcon color="white" size={18} />
+      </span>
+      <span className="hidden md:block">
+        <MoreInfoIcon color="white" size={30} />
+      </span>
+      <p className="text-xl text-white font-bold">Altre info</p>
     </button>
   );
 }

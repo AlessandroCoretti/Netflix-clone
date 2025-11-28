@@ -14,7 +14,7 @@ export default function Home() {
       ) : (
         <div className="overflow-hidden">
           <Hero type={allContent} />
-          <div className="mt-[-7%]">
+          <div className="mt-3 md:mt-[-7%]">
             <Carousel type={allContent} isLoading={isLoading} />{" "}
           </div>
           {genres.map((genre) => (

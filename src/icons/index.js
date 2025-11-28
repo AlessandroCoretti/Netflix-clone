@@ -10,3 +10,4 @@ export { default as DeleteIcon } from "../components/icons/DeleteIcon";
 export { default as Play } from "../components/icons/PlayIcon";
 export { default as PlayerIcon } from "../components/icons/PlayerIcon";
 export { default as MoreInfoIcon } from "../components/icons/MoreInfoIcon";
+export { default as AddReverse } from "../components/icons/AddReverse";

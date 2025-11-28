@@ -137,3 +137,9 @@ h5 {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+@media (max-width: 768px) {
+  body {
+    margin-inline: 1.4rem;
+  }
+}

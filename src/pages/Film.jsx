@@ -14,7 +14,7 @@ export default function Film() {
       ) : (
         <div className="overflow-hidden">
           <Hero type={movies} />
-          <div className="mt-[-7%]">
+          <div className="mt-3 md:mt-[-7%]">
             <Carousel type={movies} isLoading={isLoading} />
           </div>
 

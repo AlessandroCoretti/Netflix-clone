@@ -15,7 +15,7 @@ export default function NuoviEPopolari() {
       ) : (
         <div className="overflow-hidden">
           <Hero type={trending} />
-          <div className="mt-[-7%]">
+          <div className="mt-3 md:mt-[-7%]">
             <Carousel type={trending} isLoading={isLoading} titleCarousel="Popolari oggi" />
           </div>
           <Carousel type={popularMovies.slice(0, 10)} isLoading={isLoading} titleCarousel="Film popolari di oggi" />

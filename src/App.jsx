@@ -9,6 +9,7 @@ import MainLayout from "./layouts/MainLayout";
 import MovieProvider from "./context/MovieProvider";
 import InfoModal from "./components/InfoModal";
 import { InfoModalProvider } from "./context/InfoModalProvider";
+import ProfileChoice from "./pages/ProfileChoice";
 
 function App() {
   return (
@@ -17,12 +18,13 @@ function App() {
         <InfoModal />
         <Routes>
           <Route element={<MainLayout />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/serie-tv" element={<Serie />} />
             <Route path="/film" element={<Film />} />
             <Route path="/new" element={<NuoviEPopolari />} />
             <Route path="/my-list" element={<LaMiaLista />} />
           </Route>
+          <Route path="/" element={<ProfileChoice />} />
         </Routes>
       </InfoModalProvider>
     </MovieProvider>

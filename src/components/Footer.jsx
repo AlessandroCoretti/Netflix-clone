@@ -4,7 +4,7 @@ import { Facebook, Instagram, Twitter, Youtube } from "../icons";
 export default function Footer() {
   return (
     <footer className="flex flex-col items-center">
-      <section id="social-icons" className="flex w-[-webkit-fill-available] justify-start items-center gap-8 ms-[17rem] mb-4">
+      <section id="social-icons" className="flex w-[-webkit-fill-available] justify-start items-center gap-8 ms-68 mb-4">
         <a href="https://www.facebook.com/netflixitalia/" target="_blank" rel="noopener noreferrer">
           <Facebook size={22} />
         </a>
@@ -19,7 +19,7 @@ export default function Footer() {
         </a>
       </section>
       <section id="footer-list" className="container flex flex-col items-center mb-8">
-        <ul className="grid grid-cols-4 gap-y-4 gap-x-[6rem] w-max">
+        <ul className="grid grid-cols-4 gap-y-4 gap-x-24 w-max">
           {menu.map((element) => {
             console.log(element);
             return (
@@ -30,7 +30,7 @@ export default function Footer() {
           })}
         </ul>
       </section>
-      <h5 className="text-xs text-[#aaa5a5] w-[-webkit-fill-available] text-left ms-[16.5rem]">&copy; 1997 - {new Date().getFullYear()} Netflix, inc.</h5>
+      <h5 className="text-xs text-[#aaa5a5] w-[-webkit-fill-available] text-left ms-66">&copy; 1997 - {new Date().getFullYear()} Netflix, inc.</h5>
     </footer>
   );
 }

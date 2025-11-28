@@ -5,7 +5,7 @@ export default function LaMiaLista() {
   const { myList } = useMovies();
 
   return (
-    <section className="h-[100vh] flex flex-col justify-center">
+    <section className="h-screen flex flex-col justify-center">
       <h3 className=" text-4xl font-bold mb-5">La Mia Lista</h3>
       {myList.length > 0 ? (
         <div className="flex gap-2">

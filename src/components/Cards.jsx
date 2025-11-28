@@ -43,14 +43,14 @@ export default function Card({ movie }) {
 
   return (
     <div
-      className="relative flex-shrink-0 w-40 transition-transform duration-300 cursor-pointer "
+      className="relative shrink-0 w-25 md:w-40 transition-transform duration-300 cursor-pointer "
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
     >
       {/* Card espandibile */}
       <div
         className={`relative overflow-hidden  rounded-sm text-white transition-all duration-300 ease-in-out ${
-          expanded ? "scale-105 z-100 absolute w-[200px]" : "scale-100"
+          expanded ? "scale-105 z-100 absolute w-[150px] md:w-[200px]" : "scale-100"
         }`}
       >
         <img src={imgUrl} alt="immagine prova1" className="w-full h-full object-cover" />

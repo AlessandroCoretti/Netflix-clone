@@ -14,7 +14,7 @@ export default function Serie() {
       ) : (
         <div className="overflow-hidden">
           <Hero type={tv} />
-          <div className="mt-[-7%]">
+          <div className="mt-3 md:mt-[-7%]">
             <Carousel type={tv} isLoading={isLoading} />
           </div>
 

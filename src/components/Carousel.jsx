@@ -22,7 +22,7 @@ export default function Carousel({ type, isLoading, titleCarousel = "In evidenza
 
       <button
         onClick={() => scroll("left")}
-        className="absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-black/50 rounded-full hover:bg-black/70 transition"
+        className="hidden md:block md:absolute left-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-black/50 rounded-full hover:bg-black/70 transition"
       >
         <div className="h-6 w-6 text-white">⟨</div>
       </button>
@@ -37,7 +37,7 @@ export default function Carousel({ type, isLoading, titleCarousel = "In evidenza
 
       <button
         onClick={() => scroll("right")}
-        className="absolute right-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-black/50 rounded-full hover:bg-black/70 transition"
+        className="hidden md:block md:absolute right-0 top-1/2 transform -translate-y-1/2 z-10 p-2 bg-black/50 rounded-full hover:bg-black/70 transition"
       >
         <div className="h-6 w-6 text-white">⟩</div>
       </button>

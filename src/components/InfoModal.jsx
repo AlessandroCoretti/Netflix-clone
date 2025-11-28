@@ -8,7 +8,7 @@ export default function InfoModal() {
   const imgUrl = selectedMovie?.backdrop_path ? `https://image.tmdb.org/t/p/original${selectedMovie.backdrop_path}` : null;
 
   return (
-    <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-[9999] p-4 ">
+    <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-9999 p-4 ">
       <div className="bg-[#181818] text-white rounded-lg w-full max-w-2xl h-[90%] p-6 relative overflow-y-scroll scrollbar-hide">
         <button onClick={closeModal} className="absolute top-3 right-3 text-white text-2xl">
           ✕
