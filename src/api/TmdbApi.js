@@ -104,6 +104,25 @@ export async function fetchMovieDetail(id) {
   return data;
 }
 
+/* video dei film */
+export async function fetchMovieVideos(id) {
+  const url = `${BASE_URL}/movie/${id}/videos?language=it-IT`;
+
+  const res = await fetch(url, {
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${BEARER}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Errore nel recupero dei video del film`);
+  }
+
+  const data = await res.json();
+  return data.results;
+}
+
 /* Ora al cinema */
 export async function fetchNowMoviePlaying() {
   const url = `${BASE_URL}/movie/now_playing?language=it-IT&sort_by=popularity.desc`;
@@ -184,6 +203,25 @@ export async function fetchTvDetail(id) {
 
   const data = await res.json();
   return data;
+}
+
+/* video delle serie */
+export async function fetchTvVideos(id) {
+  const url = `${BASE_URL}/tv/${id}/videos?language=it-IT`;
+
+  const res = await fetch(url, {
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${BEARER}`,
+    },
+  });
+
+  if (!res.ok) {
+    throw new Error(`Errore nel recupero dei video della serie`);
+  }
+
+  const data = await res.json();
+  return data.results;
 }
 
 /* Oggi in onda */

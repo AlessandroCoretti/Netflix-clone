@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-/* import { useMovies } from "../../context/MovieContext";
- */ import MoreInfoBtn from "./MoreInfoBtn";
+import { useInfoModal } from "../../context/InfoModalContext";
+import MoreInfoBtn from "./MoreInfoBtn";
 import PlayerBtn from "./PlayerBtn";
 import LoadingHero from "./LoadingHero";
 
@@ -8,7 +8,7 @@ const IMG_URL =
   "https://images.unsplash.com/photo-1485846234645-a62644f84728?q=80&w=1159&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 
 export default function Hero({ type }) {
-  /* const { trending, isLoading } = useMovies(); */
+  const { openModal } = useInfoModal();
   const [programs, setPrograms] = useState(null);
 
   useEffect(() => {
@@ -41,8 +41,8 @@ export default function Hero({ type }) {
             : "In arrivo prossimamente su Netflix"}
         </p>
         <div className="flex items-center justify-between md:justify-start md:gap-3 my-3 md:mt-5">
-          {<PlayerBtn />}
-          {<MoreInfoBtn />}
+          <PlayerBtn onClick={() => openModal(programs, { playImmediately: true })} />
+          <MoreInfoBtn onClick={() => openModal(programs, { playImmediately: false })} />
         </div>
       </div>
     </section>

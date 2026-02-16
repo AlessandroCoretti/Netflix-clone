@@ -1,7 +1,48 @@
+import { useEffect, useState } from "react";
 import { useInfoModal } from "../context/InfoModalContext";
+import { fetchMovieVideos, fetchTvVideos } from "../api/TmdbApi";
 
 export default function InfoModal() {
   const { selectedMovie, closeModal } = useInfoModal();
+  const [trailerKey, setTrailerKey] = useState(null);
+  const [showTrailer, setShowTrailer] = useState(false);
+
+  useEffect(() => {
+    if (selectedMovie) {
+      setShowTrailer(false);
+      setTrailerKey(null);
+
+      const fetchVideo = async () => {
+        try {
+          let videos = [];
+          if (selectedMovie.media_type === "movie") {
+            videos = await fetchMovieVideos(selectedMovie.id);
+          } else if (selectedMovie.media_type === "tv") {
+            videos = await fetchTvVideos(selectedMovie.id);
+          }
+
+          const trailer = videos.find(
+            (v) => v.type === "Trailer" && v.site === "YouTube"
+          );
+          if (trailer) setTrailerKey(trailer.key);
+        } catch (error) {
+          console.error("Error fetching trailer", error);
+        }
+      };
+
+      fetchVideo();
+    }
+  }, [selectedMovie]);
+
+  useEffect(() => {
+    let timer;
+    if (trailerKey) {
+      timer = setTimeout(() => {
+        setShowTrailer(true);
+      }, 3000);
+    }
+    return () => clearTimeout(timer);
+  }, [trailerKey]);
 
   if (!selectedMovie) return null;
 
@@ -18,11 +59,27 @@ export default function InfoModal() {
         </button>
 
         <div className="relative w-full aspect-video">
-          <img src={imgUrl} alt={selectedMovie.title || selectedMovie.name} className="w-full h-full object-cover" />
-          <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#181818] to-transparent"></div>
-          <div className="absolute bottom-10 left-8">
-            <h2 className="text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">{selectedMovie.title || selectedMovie.name}</h2>
-          </div>
+          {showTrailer && trailerKey ? (
+            <iframe
+              className="w-full h-full"
+              src={`https://www.youtube.com/embed/${trailerKey}?autoplay=1&mute=0&controls=0&modestbranding=1&rel=0`}
+              title="YouTube video player"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            ></iframe>
+          ) : (
+            <img src={imgUrl} alt={selectedMovie.title || selectedMovie.name} className="w-full h-full object-cover" />
+          )}
+
+          {!showTrailer && (
+            <>
+              <div className="absolute bottom-0 left-0 w-full h-32 bg-gradient-to-t from-[#181818] to-transparent"></div>
+              <div className="absolute bottom-10 left-8">
+                <h2 className="text-4xl md:text-5xl font-bold mb-2 drop-shadow-lg">{selectedMovie.title || selectedMovie.name}</h2>
+              </div>
+            </>
+          )}
+
         </div>
 
         <div className="p-8 md:flex gap-8">

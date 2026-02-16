@@ -15,6 +15,7 @@ import {
   fetchKidsTv,
 } from "../api/TmdbApi";
 import { MovieContext } from "./MovieContext";
+import { useProfile } from "./ProfileContext";
 
 export default function MovieProvider({ children }) {
   const [movies, setMovies] = useState([]);
@@ -34,41 +35,42 @@ export default function MovieProvider({ children }) {
   const [tvByGenre, setTvByGenre] = useState({});
   const [allByGenre, setAllByGenre] = useState({});
   const [search, setSearch] = useState("");
-  const [myList, setMyList] = useState(() => {
+  const [debouncedSearch, setDebouncedSearch] = useState("");
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedSearch(search);
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timer);
+  }, [search]);
+  const { activeProfile, addToMyList, isInMyList } = useProfile();
+
+  // Rimosso state locale myList
+  /* const [myList, setMyList] = useState(() => {
     const saved = localStorage.getItem("myList");
     return saved ? JSON.parse(saved) : [];
-  });
+  }); */
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     async function loadData() {
       try {
-        const [moviesData, tvData, genresData, popularMovies, popularSeries, trendingData, playingMoviesData, tvPlayingData, kidsMoviesData, kidsTvData] = await Promise.all([
+        // FASE 1: Dati critici (Home Page)
+        const [genresData, moviesData, tvData] = await Promise.all([
+          fetchGenres(),
           fetchMovies(),
           fetchTv(),
-          fetchGenres(),
-          fetchPopularMovies(),
-          fetchPopularSeries(),
-          fetchTrendingAll(),
-          fetchNowMoviePlaying(),
-          fetchNowTvPlaying(),
-          fetchKidsMovies(),
-          fetchKidsTv(),
         ]);
 
-        setMovies(moviesData);
-        setPlayingMovies(playingMoviesData);
-        setTv(tvData);
-        setPlayingTv(tvPlayingData);
         setGenres(genresData);
-        setPopularMovies(popularMovies);
-        setPopularSeries(popularSeries);
-        setTrending(trendingData);
-        setKidsMovies(kidsMoviesData);
-        setKidsTv(kidsTvData);
-        setKidsContent([...kidsMoviesData.map((m) => ({ ...m, type: "movie" })), ...kidsTvData.map((t) => ({ ...t, type: "tv" }))]);
+        setMovies(moviesData);
+        setTv(tvData);
 
-        setAllContent([...moviesData.map((movie) => ({ ...movie, type: "movie" })), ...tvData.map((serie) => ({ ...serie, type: "tv" }))]);
+        const moviesWithType = moviesData.map((movie) => ({ ...movie, type: "movie" }));
+        const tvWithType = tvData.map((serie) => ({ ...serie, type: "tv" }));
+
+        setAllContent([...moviesWithType, ...tvWithType]);
 
         const groupByGenre = genresData.reduce((acc, genre) => {
           acc[genre.name] = moviesData.filter((movie) => movie.genre_ids?.includes(genre.id));
@@ -92,9 +94,31 @@ export default function MovieProvider({ children }) {
         }, {});
 
         setAllByGenre(groupedAll);
+
+        setIsLoading(false); // Sblocca UI
+
+        // FASE 2: Dati secondari
+        const [popularMovies, popularSeries, trendingData, playingMoviesData, tvPlayingData, kidsMoviesData, kidsTvData] = await Promise.all([
+          fetchPopularMovies(),
+          fetchPopularSeries(),
+          fetchTrendingAll(),
+          fetchNowMoviePlaying(),
+          fetchNowTvPlaying(),
+          fetchKidsMovies(),
+          fetchKidsTv(),
+        ]);
+
+        setPopularMovies(popularMovies);
+        setPopularSeries(popularSeries);
+        setTrending(trendingData);
+        setPlayingMovies(playingMoviesData);
+        setPlayingTv(tvPlayingData);
+        setKidsMovies(kidsMoviesData);
+        setKidsTv(kidsTvData);
+        setKidsContent([...kidsMoviesData.map((m) => ({ ...m, type: "movie" })), ...kidsTvData.map((t) => ({ ...t, type: "tv" }))]);
+
       } catch (error) {
         console.error("Errore nel MovieContext: ", error);
-      } finally {
         setIsLoading(false);
       }
     }
@@ -102,24 +126,13 @@ export default function MovieProvider({ children }) {
     loadData();
   }, []);
 
-  useEffect(() => {
-    localStorage.setItem("myList", JSON.stringify(myList));
-  }, [myList]);
+  /* function toggleInList(movie) {
+    // ...
+  } */
 
-  function toggleInList(movie) {
-    setMyList((prev) => {
-      const exist = prev.some((item) => item.id === movie.id);
-      if (exist) {
-        return prev.filter((item) => item.id !== movie.id);
-      } else {
-        return [...prev, movie];
-      }
-    });
-  }
-
-  function isInList(id) {
-    return myList.some((movie) => movie.id === id);
-  }
+  /* function isInList(id) {
+    // ...
+  } */
 
   function getGenresName(ids) {
     if (!genres.length) return [];
@@ -137,8 +150,8 @@ export default function MovieProvider({ children }) {
       detail = await fetchTvDetail(id);
     }
 
-    detailsCache.current[id] = detail;
-    return detail;
+    detailsCache.current[id] = { ...detail, media_type: type };
+    return { ...detail, media_type: type };
   }
 
 
@@ -160,9 +173,9 @@ export default function MovieProvider({ children }) {
     getMovieDetail,
     search,
     setSearch,
-    myList,
-    toggleInList,
-    isInList,
+    myList: activeProfile?.myList || [],
+    toggleInList: addToMyList,
+    isInList: isInMyList,
     kidsMovies,
     kidsTv,
     kidsContent,
@@ -180,8 +193,9 @@ export default function MovieProvider({ children }) {
     tvByGenre,
     allByGenre,
     isLoading,
+    isLoading,
     search,
-    myList,
+    activeProfile,
     kidsContent,
     kidsMovies,
     kidsTv

@@ -16,29 +16,35 @@ export default function Card({ movie }) {
   const genres = getGenresName(movie.genre_ids);
 
   const hoverTimeout = useRef(null);
+  const isHovered = useRef(false);
 
   useEffect(() => {
     // Lazy load rimosso dall'inizializzazione
   }, []);
 
   const handleMouseEnter = async () => {
+    isHovered.current = true;
+
     if (!details.runtime && !details.number_of_seasons) {
       const mediaType = movie.media_type || (movie.title ? "movie" : "tv");
       try {
         const info = await getMovieDetail(movie.id, mediaType);
-        setDetails(info);
+        if (isHovered.current) setDetails(info);
       } catch (error) {
         console.error("Failed to load movie details", error);
       }
     }
 
+    if (!isHovered.current) return;
+
     hoverTimeout.current = setTimeout(() => {
-      setExpanded(true);
-    }, 1000);
+      if (isHovered.current) setExpanded(true);
+    }, 800);
   };
 
   const handleMouseLeave = () => {
-    clearTimeout(hoverTimeout.current);
+    isHovered.current = false;
+    if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
     setExpanded(false);
   };
 

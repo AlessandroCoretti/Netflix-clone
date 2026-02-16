@@ -1,8 +1,8 @@
 import MoreInfoIcon from "../icons/MoreInfoIcon";
 
-export default function MoreInfoBtn() {
+export default function MoreInfoBtn(props) {
   return (
-    <button className="flex items-center gap-1 px-4 py-2 md:gap-2 md:px-7 md:py-3 rounded-xs md:rounded-sm bg-[#7f7f7f] cursor-pointer hover:bg-[#7f7f7f74]">
+    <button {...props} className="flex items-center gap-1 px-4 py-2 md:gap-2 md:px-7 md:py-3 rounded-xs md:rounded-sm bg-[#7f7f7f] cursor-pointer hover:bg-[#7f7f7f74]">
       <span className="block md:hidden">
         <MoreInfoIcon color="white" size={18} />
       </span>
