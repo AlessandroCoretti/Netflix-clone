@@ -29,7 +29,7 @@ export default function Hero({ type }) {
       </div>
       <div className=" px-3 md:px-0 md:w-[40%] md:absolute md:bottom-[25%] md:left-10">
         <img src="./netflix_logo.png" alt="Netflix-logo-1" className="hidden md:block -ms-6 -mb-6 h-25" />
-        <img src="./netflix-1-logo.svg" alt="Netflix-logo-2" className="absolute top-35 left-5 md:hidden h-8" />
+        <img src="./netflix-1-logo.svg" alt="Netflix-logo-2" className="absolute top-20 left-5 md:hidden h-8" />
         <h3 className="text-xl justify-self-center md:justify-self-start my-2 md:my-0 md:text-[4rem] font-bold md:leading-16">
           {programs.title || programs.name}
         </h3>

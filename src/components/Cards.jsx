@@ -22,18 +22,21 @@ export default function Card({ movie }) {
     // Lazy load rimosso dall'inizializzazione
   }, []);
 
-  const handleMouseEnter = async () => {
-    isHovered.current = true;
+  const fetchMovieData = async () => {
+    if (details.runtime || details.number_of_seasons) return;
 
-    if (!details.runtime && !details.number_of_seasons) {
-      const mediaType = movie.media_type || (movie.title ? "movie" : "tv");
-      try {
-        const info = await getMovieDetail(movie.id, mediaType);
-        if (isHovered.current) setDetails(info);
-      } catch (error) {
-        console.error("Failed to load movie details", error);
-      }
+    const mediaType = movie.media_type || (movie.title ? "movie" : "tv");
+    try {
+      const info = await getMovieDetail(movie.id, mediaType);
+      if (isHovered.current || window.innerWidth < 768) setDetails(info);
+    } catch (error) {
+      console.error("Failed to load movie details", error);
     }
+  };
+
+  const handleMouseEnter = () => {
+    isHovered.current = true;
+    fetchMovieData();
 
     if (!isHovered.current) return;
 
@@ -48,8 +51,22 @@ export default function Card({ movie }) {
     setExpanded(false);
   };
 
-  const handleToggleList = () => {
+  const handleClick = () => {
+    if (window.innerWidth < 768) {
+      if (hoverTimeout.current) clearTimeout(hoverTimeout.current);
+      fetchMovieData();
+      setExpanded(true);
+    }
+  };
+
+  const handleToggleList = (e) => {
+    e.stopPropagation(); // Prevent card toggle/click
     toggleInList(movie);
+  };
+
+  const handleOpenModal = (e) => {
+    e.stopPropagation();
+    openModal(details);
   };
 
   return (
@@ -57,6 +74,7 @@ export default function Card({ movie }) {
       className="relative shrink-0 w-25 md:w-40 transition-transform duration-300 cursor-pointer "
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
+      onClick={handleClick}
     >
       {/* Card espandibile */}
       <div
@@ -73,7 +91,7 @@ export default function Card({ movie }) {
               {isInList(movie.id) ? <DeleteIcon size={33} /> : <AddIcon size={40} />}
             </button>
 
-            <button onClick={() => openModal(details)}>
+            <button onClick={handleOpenModal}>
               <MoreInfoBtn />
             </button>
           </div>
