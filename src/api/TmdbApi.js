@@ -206,3 +206,41 @@ export async function fetchNowTvPlaying() {
   console.log(data);
   return data.results;
 }
+/* KIDDIE CONTENT */
+export async function fetchKidsMovies() {
+  const url = `${BASE_URL}/discover/movie?language=it-IT&sort_by=popularity.desc&certification_country=IT&certification.lte=T&with_genres=16,10751`;
+
+  const res = await fetch(url, {
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${BEARER}`,
+    },
+  });
+
+  if (!res.ok) {
+    console.error("Errore HTTP Kids Movies:", res.status);
+    throw new Error(`TMDB Error ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data.results;
+}
+
+export async function fetchKidsTv() {
+  const url = `${BASE_URL}/discover/tv?language=it-IT&sort_by=popularity.desc&with_genres=10762`;
+
+  const res = await fetch(url, {
+    headers: {
+      accept: "application/json",
+      Authorization: `Bearer ${BEARER}`,
+    },
+  });
+
+  if (!res.ok) {
+    console.error("Errore HTTP Kids TV:", res.status);
+    throw new Error(`TMDB Error ${res.status}`);
+  }
+
+  const data = await res.json();
+  return data.results;
+}

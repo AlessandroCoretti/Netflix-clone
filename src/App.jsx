@@ -5,6 +5,7 @@ import Serie from "./pages/Serie";
 import Film from "./pages/Film";
 import NuoviEPopolari from "./pages/NuoviEPopolari";
 import LaMiaLista from "./pages/LaMiaLista";
+import Kids from "./pages/Kids";
 import MainLayout from "./layouts/MainLayout";
 import MovieProvider from "./context/MovieProvider";
 import InfoModal from "./components/InfoModal";
@@ -23,6 +24,7 @@ function App() {
             <Route path="/film" element={<Film />} />
             <Route path="/new" element={<NuoviEPopolari />} />
             <Route path="/my-list" element={<LaMiaLista />} />
+            <Route path="/kids" element={<Kids />} />
           </Route>
           <Route path="/" element={<ProfileChoice />} />
         </Routes>

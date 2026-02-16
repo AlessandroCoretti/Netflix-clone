@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef, useMemo } from "react";
 import {
   fetchGenres,
   fetchMovieDetail,
@@ -9,7 +9,10 @@ import {
   fetchPopularSeries,
   fetchTrendingAll,
   fetchTv,
+
   fetchTvDetail,
+  fetchKidsMovies,
+  fetchKidsTv,
 } from "../api/TmdbApi";
 import { MovieContext } from "./MovieContext";
 
@@ -23,7 +26,10 @@ export default function MovieProvider({ children }) {
   const [trending, setTrending] = useState([]);
   const [playingMovies, setPlayingMovies] = useState([]);
   const [playingTv, setPlayingTv] = useState([]);
-  const [detailsCache, setDetailsCache] = useState([]);
+  const [kidsMovies, setKidsMovies] = useState([]);
+  const [kidsTv, setKidsTv] = useState([]);
+  const [kidsContent, setKidsContent] = useState([]);
+  const detailsCache = useRef({});
   const [moviesByGenre, setMovieByGenre] = useState({});
   const [tvByGenre, setTvByGenre] = useState({});
   const [allByGenre, setAllByGenre] = useState({});
@@ -37,7 +43,7 @@ export default function MovieProvider({ children }) {
   useEffect(() => {
     async function loadData() {
       try {
-        const [moviesData, tvData, genresData, popularMovies, popularSeries, trendingData, playingMoviesData, tvPlayingData] = await Promise.all([
+        const [moviesData, tvData, genresData, popularMovies, popularSeries, trendingData, playingMoviesData, tvPlayingData, kidsMoviesData, kidsTvData] = await Promise.all([
           fetchMovies(),
           fetchTv(),
           fetchGenres(),
@@ -46,6 +52,8 @@ export default function MovieProvider({ children }) {
           fetchTrendingAll(),
           fetchNowMoviePlaying(),
           fetchNowTvPlaying(),
+          fetchKidsMovies(),
+          fetchKidsTv(),
         ]);
 
         setMovies(moviesData);
@@ -56,6 +64,9 @@ export default function MovieProvider({ children }) {
         setPopularMovies(popularMovies);
         setPopularSeries(popularSeries);
         setTrending(trendingData);
+        setKidsMovies(kidsMoviesData);
+        setKidsTv(kidsTvData);
+        setKidsContent([...kidsMoviesData.map((m) => ({ ...m, type: "movie" })), ...kidsTvData.map((t) => ({ ...t, type: "tv" }))]);
 
         setAllContent([...moviesData.map((movie) => ({ ...movie, type: "movie" })), ...tvData.map((serie) => ({ ...serie, type: "tv" }))]);
 
@@ -116,7 +127,7 @@ export default function MovieProvider({ children }) {
   }
 
   async function getMovieDetail(id, type) {
-    if (detailsCache[id]) return detailsCache[id];
+    if (detailsCache.current[id]) return detailsCache.current[id];
 
     let detail;
 
@@ -126,35 +137,58 @@ export default function MovieProvider({ children }) {
       detail = await fetchTvDetail(id);
     }
 
-    setDetailsCache((prev) => ({ ...prev, [id]: detail }));
+    detailsCache.current[id] = detail;
     return detail;
   }
 
+
+  const value = useMemo(() => ({
+    movies,
+    tv,
+    allContent,
+    genres,
+    popularMovies,
+    popularSeries,
+    trending,
+    playingMovies,
+    playingTv,
+    moviesByGenre,
+    tvByGenre,
+    allByGenre,
+    isLoading,
+    getGenresName,
+    getMovieDetail,
+    search,
+    setSearch,
+    myList,
+    toggleInList,
+    isInList,
+    kidsMovies,
+    kidsTv,
+    kidsContent,
+  }), [
+    movies,
+    tv,
+    allContent,
+    genres,
+    popularMovies,
+    popularSeries,
+    trending,
+    playingMovies,
+    playingTv,
+    moviesByGenre,
+    tvByGenre,
+    allByGenre,
+    isLoading,
+    search,
+    myList,
+    kidsContent,
+    kidsMovies,
+    kidsTv
+  ]);
+
   return (
-    <MovieContext.Provider
-      value={{
-        movies,
-        tv,
-        allContent,
-        genres,
-        popularMovies,
-        popularSeries,
-        trending,
-        playingMovies,
-        playingTv,
-        moviesByGenre,
-        tvByGenre,
-        allByGenre,
-        isLoading,
-        getGenresName,
-        getMovieDetail,
-        search,
-        setSearch,
-        myList,
-        toggleInList,
-        isInList,
-      }}
-    >
+    <MovieContext.Provider value={value}>
       {children}
     </MovieContext.Provider>
   );

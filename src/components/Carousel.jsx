@@ -27,7 +27,7 @@ export default function Carousel({ type, isLoading, titleCarousel = "In evidenza
         <div className="h-6 w-6 text-white">⟨</div>
       </button>
 
-      <ul ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory">
+      <ul ref={scrollRef} className="flex gap-2 overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory py-4">
         {type.map((trend) => (
           <li key={trend.id}>
             <Card movie={trend} />
