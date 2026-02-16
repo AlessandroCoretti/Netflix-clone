@@ -11,6 +11,7 @@ import { useProfile } from "../../context/ProfileContext";
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { search, setSearch } = useMovies();
   const { activeProfile, profiles, switchProfile, logout } = useProfile();
 
@@ -48,7 +49,7 @@ export default function Navbar() {
               <input
                 type="text"
                 placeholder="Titoli, genere"
-                className="w-30 h-10 md:w-full border border-white px-1"
+                className="w-30 h-10 md:w-60 border border-white px-2 bg-black/80 text-white focus:outline-none transition-all"
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
@@ -59,7 +60,57 @@ export default function Navbar() {
             <BellIcons />
           </span>
 
-          {/* Profile Dropdown */}
+          {/* Mobile Menu Toggle */}
+          <div className="md:hidden relative">
+            <div className="cursor-pointer" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+              <img
+                src={activeProfile?.avatar?.image || activeProfile?.avatar || Avatar}
+                alt="Profile"
+                className="w-8 h-8 rounded border border-transparent hover:border-white transition"
+                style={activeProfile?.avatar?.style || {}}
+              />
+            </div>
+
+            {/* Mobile Dropdown */}
+            {isMenuOpen && (
+              <div className="absolute top-12 right-0 w-64 bg-[#141414] border border-[#333] shadow-2xl flex flex-col p-5 gap-5 animate-fade-in z-50 rounded-md">
+
+                {/* Profiles */}
+                <div className="flex flex-col gap-2 border-b border-[#333] pb-3">
+                  <span className="text-gray-400 text-xs uppercase">Profili</span>
+                  <div className="flex gap-3 overflow-x-auto pb-2 scrollbar-hide">
+                    {profiles.map(p => (
+                      <img
+                        key={p.id}
+                        src={p.avatar?.image || p.avatar}
+                        alt={p.name}
+                        className={`w-9 h-9 rounded cursor-pointer transition border-2 ${activeProfile?.id === p.id ? 'border-white' : 'border-transparent opacity-60 hover:opacity-100'}`}
+                        style={p.avatar?.style || {}}
+                        onClick={() => { switchProfile(p.id); setIsMenuOpen(false); }}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* Links */}
+                <ul className="flex flex-col gap-3 text-white text-base font-medium">
+                  <li><NavLink to="/home" onClick={() => setIsMenuOpen(false)}>Home</NavLink></li>
+                  <li><NavLink to="/serie-tv" onClick={() => setIsMenuOpen(false)}>Serie TV</NavLink></li>
+                  <li><NavLink to="/film" onClick={() => setIsMenuOpen(false)}>Film</NavLink></li>
+                  <li><NavLink to="/new" onClick={() => setIsMenuOpen(false)}>Nuovi e popolari</NavLink></li>
+                  <li><NavLink to="/my-list" onClick={() => setIsMenuOpen(false)}>La mia lista</NavLink></li>
+                  <li><NavLink to="/kids" onClick={() => setIsMenuOpen(false)}>Bambini</NavLink></li>
+                </ul>
+
+                <div className="pt-2 border-t border-[#333] flex flex-col gap-3">
+                  <NavLink to="/manage-profiles" className="text-gray-300 text-sm" onClick={() => setIsMenuOpen(false)}>Gestisci profili</NavLink>
+                  <NavLink to="/" onClick={logout} className="text-white font-bold text-sm">Esci da Netflix</NavLink>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Desktop Profile Dropdown */}
           <div className="group relative cursor-pointer hidden md:block">
             <div className="flex items-center gap-2">
               <img
@@ -112,6 +163,6 @@ export default function Navbar() {
           </div>
         </div>
       </div>
-    </nav>
+    </nav >
   );
 }

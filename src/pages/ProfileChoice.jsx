@@ -36,46 +36,47 @@ export default function ProfileChoice() {
 
   if (showAddProfile) {
     return (
-      <section className="h-[calc(100vh-50px)] flex flex-col justify-center items-center gap-8 animate-fade-in">
-        <h2 className="text-4xl md:text-5xl text-white font-normal mb-4">Aggiungi Profilo</h2>
-        <div className="flex flex-col items-center gap-6">
+      <section className="h-screen flex flex-col justify-center items-center gap-6 md:gap-8 animate-fade-in bg-[#141414] px-4">
+        <h2 className="text-3xl md:text-5xl text-white font-normal mb-4 text-center">Aggiungi Profilo</h2>
+        <div className="flex flex-col items-center gap-6 w-full max-w-md">
 
-          <div className="flex gap-4">
+          <h3 className="text-gray-400 text-sm md:text-lg">Scegli un'icona:</h3>
+          <div className="flex gap-4 justify-center">
             {AVATARS.map((avatar) => (
               <div
                 key={avatar.id}
-                className={`cursor-pointer rounded overflow-hidden border-2 ${selectedAvatar.id === avatar.id ? "border-white" : "border-transparent"} hover:border-gray-400 transition`}
+                className={`cursor-pointer rounded overflow-hidden border-2 ${selectedAvatar.id === avatar.id ? "border-white" : "border-transparent"} hover:border-gray-400 transition transform hover:scale-105`}
                 onClick={() => setSelectedAvatar(avatar)}
               >
                 <img
                   src={avatar.image}
                   alt="Avatar option"
-                  className="w-16 h-16 md:w-24 md:h-24 object-cover"
+                  className="w-14 h-14 md:w-24 md:h-24 object-cover"
                   style={avatar.style}
                 />
               </div>
             ))}
           </div>
 
-          <form onSubmit={handleAddProfile} className="flex flex-col gap-4 items-center">
+          <form onSubmit={handleAddProfile} className="flex flex-col gap-6 items-center w-full">
             <input
               type="text"
               placeholder="Nome"
-              className="bg-[#333] text-white px-4 py-2 rounded border border-transparent focus:border-white outline-none w-64"
+              className="bg-[#333] text-white px-4 py-3 rounded-sm border border-transparent focus:border-white focus:outline-none w-full md:w-80 placeholder-gray-500"
               value={newProfileName}
               onChange={(e) => setNewProfileName(e.target.value)}
               autoFocus
             />
-            <div className="flex gap-4">
+            <div className="flex gap-4 w-full md:w-auto">
               <button
                 type="submit"
-                className="bg-white text-black font-bold px-6 py-2 rounded hover:bg-[#c00] hover:text-white transition"
+                className="flex-1 md:flex-none bg-white text-black font-semibold px-6 py-2 rounded-sm hover:bg-[#c00] hover:text-white transition uppercase tracking-wide"
               >
                 Salva
               </button>
               <button
                 type="button"
-                className="border border-gray-400 text-gray-400 px-6 py-2 rounded hover:border-white hover:text-white transition"
+                className="flex-1 md:flex-none border border-gray-400 text-gray-400 font-semibold px-6 py-2 rounded-sm hover:border-white hover:text-white transition uppercase tracking-wide"
                 onClick={() => setShowAddProfile(false)}
               >
                 Annulla
