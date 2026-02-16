@@ -27,7 +27,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`md:h-fit fixed px-3 pe-5 md:px-8 top-0 left-0 w-full z-10 transition-colors duration-100 ease-in-out ${isScrolled ? "bg-linear-to-t from-[#161616] to-[#060606]" : "bg-linear-to-t from-transparent to-[#151414b0]"
+      className={`md:h-fit fixed px-3 pe-5 md:px-8 top-0 left-0 w-full z-50 transition-colors duration-100 ease-in-out ${isScrolled ? "bg-linear-to-t from-[#161616] to-[#060606]" : "bg-linear-to-t from-transparent to-[#151414b0]"
         }`}
     >
       <div className="flex items-center justify-between ">
